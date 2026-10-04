@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Amazon-style frontend e-commerce clone built with HTML, CSS and JavaScript." />
+  <title>ShopZone — Amazon Style Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#" class="logo" aria-label="ShopZone home">
+        <span>shop</span><strong>zone</strong><small>.pk</small>
+      </a>
+
+      <button class="delivery-location" type="button" aria-label="Delivery location">
+        <span class="location-icon">⌖</span>
+        <span>
+          <small>Deliver to</small>
+          <strong>Pakistan</strong>
+        </span>
+      </button>
+
+      <form class="search-form" id="searchForm">
+        <select id="categoryFilter" aria-label="Search category">
+          <option value="all">All</option>
+          <option value="electronics">Electronics</option>
+          <option value="computers">Computers</option>
+          <option value="fashion">Fashion</option>
+          <option value="home">Home</option>
+          <option value="beauty">Beauty</option>
+        </select>
+        <input id="searchInput" type="search" placeholder="Search products..." autocomplete="off" />
+        <button type="submit" aria-label="Search">⌕</button>
+      </form>
+
+      <div class="header-actions">
+        <button class="header-link" id="accountBtn" type="button">
+          <small>Hello, sign in</small>
+          <strong>Account & Lists</strong>
+        </button>
+        <button class="header-link orders-link" id="ordersBtn" type="button">
+          <small>Returns</small>
+          <strong>& Orders</strong>
+        </button>
+        <button class="cart-button" id="cartBtn" type="button" aria-label="Open cart">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-count" id="cartCount">0</span>
+          <strong>Cart</strong>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="category-nav">
+    <div class="nav-inner">
+      <button class="menu-button" id="menuButton" type="button">☰ <span>All</span></button>
+      <button type="button" data-category="all">Today's Deals</button>
+      <button type="button" data-category="electronics">Electronics</button>
+      <button type="button" data-category="computers">Computers</button>
+      <button type="button" data-category="fashion">Fashion</button>
+      <button type="button" data-category="home">Home</button>
+      <button type="button" data-category="beauty">Beauty</button>
+      <button type="button" id="exportOrdersNav">Export Orders</button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <span class="hero-badge">LIMITED TIME</span>
+        <h1>Everything you need.<br><span>Delivered simply.</span></h1>
+        <p>Discover great products, add them to your cart, and complete your order in a few clicks.</p>
+        <button class="primary-button hero-button" id="shopNowBtn" type="button">Shop now</button>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-circle circle-one"></div>
+        <div class="hero-circle circle-two"></div>
+        <div class="hero-box">SHOP<br><span>SMART</span></div>
+      </div>
+    </section>
+
+    <section class="store-section" id="productsSection">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">CURATED FOR YOU</p>
+          <h2>Popular products</h2>
+        </div>
+        <p id="resultsText">Showing all products</p>
+      </div>
+
+      <div class="store-layout">
+        <aside class="filters" id="filters">
+          <div class="filter-header">
+            <h3>Filters</h3>
+            <button id="clearFilters" type="button">Clear</button>
+          </div>
+
+          <div class="filter-group">
+            <h4>Category</h4>
+            <label><input type="radio" name="category" value="all" checked> All products</label>
+            <label><input type="radio" name="category" value="electronics"> Electronics</label>
+            <label><input type="radio" name="category" value="computers"> Computers</label>
+            <label><input type="radio" name="category" value="fashion"> Fashion</label>
+            <label><input type="radio" name="category" value="home"> Home</label>
+            <label><input type="radio" name="category" value="beauty"> Beauty</label>
+          </div>
+
+          <div class="filter-group">
+            <h4>Price</h4>
+            <label><input type="radio" name="price" value="all" checked> All prices</label>
+            <label><input type="radio" name="price" value="0-5000"> Under Rs. 5,000</label>
+            <label><input type="radio" name="price" value="5000-15000"> Rs. 5,000–15,000</label>
+            <label><input type="radio" name="price" value="15000-30000"> Rs. 15,000–30,000</label>
+            <label><input type="radio" name="price" value="30000-999999"> Rs. 30,000+</label>
+          </div>
+
+          <div class="filter-group">
+            <h4>Sort by</h4>
+            <select id="sortSelect">
+              <option value="featured">Featured</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Customer Rating</option>
+              <option value="name">Name</option>
+            </select>
+          </div>
+        </aside>
+
+        <div class="products-area">
+          <div class="mobile-filter-row">
+            <button type="button" id="mobileFilterBtn">☰ Filters</button>
+            <select id="mobileSort">
+              <option value="featured">Featured</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Customer Rating</option>
+              <option value="name">Name</option>
+            </select>
+          </div>
+          <div class="product-grid" id="productGrid"></div>
+          <div class="empty-state hidden" id="emptyProducts">
+            <div>⌕</div>
+            <h3>No products found</h3>
+            <p>Try another search or clear your filters.</p>
+            <button class="secondary-button" id="emptyReset" type="button">Clear filters</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">shop<strong>zone</strong></div>
+        <p>A frontend-only e-commerce project built with HTML, CSS and JavaScript.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <button data-category="electronics">Electronics</button>
+        <button data-category="computers">Computers</button>
+        <button data-category="fashion">Fashion</button>
+      </div>
+      <div>
+        <h4>Customer</h4>
+        <button id="footerOrdersBtn">Your Orders</button>
+        <button id="footerExportBtn">Export Orders</button>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 ShopZone. Frontend portfolio project.</div>
+  </footer>
+
+  <!-- Product detail modal -->
+  <div class="modal-overlay hidden" id="productModal">
+    <div class="modal product-modal" role="dialog" aria-modal="true">
+      <button class="close-modal" data-close="productModal" type="button">×</button>
+      <div id="productModalContent"></div>
+    </div>
+  </div>
+
+  <!-- Cart drawer -->
+  <div class="drawer-overlay hidden" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+    <div class="drawer-header">
+      <h2>Shopping Cart</h2>
+      <button class="close-drawer" id="closeCart" type="button">×</button>
+    </div>
+    <div class="drawer-body" id="cartItems"></div>
+    <div class="cart-summary" id="cartSummary"></div>
+  </aside>
+
+  <!-- Checkout modal -->
+  <div class="modal-overlay hidden" id="checkoutModal">
+    <div class="modal checkout-modal" role="dialog" aria-modal="true">
+      <button class="close-modal" data-close="checkoutModal" type="button">×</button>
+      <div class="checkout-header">
+        <p class="eyebrow">SECURE CHECKOUT</p>
+        <h2>Complete your order</h2>
+        <p>Your information is stored locally in this browser. No payment is processed.</p>
+      </div>
+
+      <div class="checkout-layout">
+        <form class="checkout-form" id="checkoutForm">
+          <div class="form-section">
+            <h3>1. Customer information</h3>
+            <div class="form-grid">
+              <label>Full name <input name="fullName" required minlength="3" placeholder="Abdullah Saeed"></label>
+              <label>Email address <input name="email" type="email" required placeholder="abdullah@example.com"></label>
+              <label>Phone number <input name="phone" required minlength="10" placeholder="+92 300 1234567"></label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>2. Delivery address</h3>
+            <div class="form-grid">
+              <label class="full-width">Address <input name="address" required placeholder="House, street, area"></label>
+              <label>City <input name="city" required placeholder="Lahore"></label>
+              <label>Postal code <input name="postalCode" required placeholder="54000"></label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>3. Payment method</h3>
+            <div class="payment-options">
+              <label class="payment-option">
+                <input type="radio" name="payment" value="Cash on Delivery" checked>
+                <span><strong>Cash on Delivery</strong><small>Pay when your order arrives.</small></span>
+              </label>
+              <label class="payment-option">
+                <input type="radio" name="payment" value="Card (Demo)">
+                <span><strong>Card (Demo)</strong><small>No real payment is processed.</small></span>
+              </label>
+            </div>
+          </div>
+
+          <p class="form-error hidden" id="checkoutError"></p>
+          <button class="primary-button place-order-button" type="submit">Place order</button>
+        </form>
+
+        <div class="checkout-summary" id="checkoutSummary"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders modal -->
+  <div class="modal-overlay hidden" id="ordersModal">
+    <div class="modal orders-modal" role="dialog" aria-modal="true">
+      <button class="close-modal" data-close="ordersModal" type="button">×</button>
+      <div class="checkout-header">
+        <p class="eyebrow">LOCAL ORDER HISTORY</p>
+        <h2>Your orders</h2>
+        <p>Orders are saved in this browser using localStorage.</p>
+      </div>
+      <div id="ordersContent"></div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu hidden" id="mobileMenu">
+    <div class="mobile-menu-card">
+      <button class="close-modal" id="closeMobileMenu" type="button">×</button>
+      <h2>Shop by category</h2>
+      <button data-category="all">All products</button>
+      <button data-category="electronics">Electronics</button>
+      <button data-category="computers">Computers</button>
+      <button data-category="fashion">Fashion</button>
+      <button data-category="home">Home</button>
+      <button data-category="beauty">Beauty</button>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
